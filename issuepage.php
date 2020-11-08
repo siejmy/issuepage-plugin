@@ -11,7 +11,7 @@
  * @package         siejmy
  */
 
-require_once dirname(__FILE__) . '/render_callbacks/issuepage.php';
+require_once dirname(__FILE__) . '/render_callbacks/issuepage_downloadbtn.php';
 
 function register_block_type_issuepage() {
 	register_block_type( 'siejmy/issuepage', array(
