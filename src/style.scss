@@ -5,6 +5,26 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+.issuepage-img {
+	display: inline-block;
+	vertical-align: top;
+	width: 32%;
+	box-shadow: 4px 5px 20px rgba(0, 0, 0, 0.6);
+	margin-right: 8%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.issuepage-img amp-img {
+	width: 100%;
+}
+
+.issuepage-content {
+	display: inline-block;
+	width: 52%;
+}
+
 .downloadbtn a {
 	font-weight: 900;
 	letter-spacing: 0.1em;
