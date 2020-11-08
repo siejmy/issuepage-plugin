@@ -6,11 +6,11 @@
  */
 
 .issuepage-img {
-	display: inline-block;
-	vertical-align: top;
-	width: 32%;
+	display: block;
+	margin: 0 4%;
+	margin-bottom: 3rem;
+
 	box-shadow: 4px 5px 20px rgba(0, 0, 0, 0.6);
-	margin-right: 8%;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -20,12 +20,43 @@
 	width: 100%;
 }
 
+@media (min-width: 768px) {
+	.issuepage-img {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 0;
+		margin-right: 8%;
+		width: 32%;
+	}
+}
+
 .issuepage-content {
-	display: inline-block;
-	width: 52%;
+	display: block;
+	margin: 0 4%;
+}
+
+@media (min-width: 768px) {
+	.issuepage-content {
+		display: inline-block;
+		width: 52%;
+	}
+}
+
+.issuepage-downloadbtn {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+@media (min-width: 768px) {
+	.issuepage-downloadbtn {
+		text-align: left;
+	}
 }
 
 .issuepage-downloadbtn a {
+	display: block;
+	margin: 0 auto;
 	font-weight: 900;
 	letter-spacing: 0.1em;
 	border-radius: 0 !important;
@@ -33,7 +64,6 @@
 	padding: 1em 2em !important;
 	margin-top: 1em;
 	margin-bottom: 3em;
-	display: block;
 	width: fit-content;
 	color: white;
 	text-decoration: none;
