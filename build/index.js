@@ -170,45 +170,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/downloadbtn.js":
-/*!****************************!*\
-  !*** ./src/downloadbtn.js ***!
-  \****************************/
-/*! exports provided: initBlockIssuepageDownloadbtn */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initBlockIssuepageDownloadbtn", function() { return initBlockIssuepageDownloadbtn; });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function initBlockIssuepageDownloadbtn() {
-  Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("siejmy/issuepage-downloadbtn", {
-    title: "Pobierz wydanie PDF",
-    description: "Przycisk pobierania pliku PDF do strony wydania",
-    category: "layout",
-    icon: "smiley",
-    supports: {
-      html: false
-    },
-    attributes: {},
-    edit: function edit(_ref) {
-      var className = _ref.className;
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-        className: className + " downloadbtn"
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
-        href: "/"
-      }, "(Pobierz tekst)"));
-    }
-  });
-}
-
-/***/ }),
-
 /***/ "./src/editor.scss":
 /*!*************************!*\
   !*** ./src/editor.scss ***!
@@ -233,33 +194,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_editor_scss__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _downloadbtn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./downloadbtn.js */ "./src/downloadbtn.js");
 
 
-
-Object(_downloadbtn_js__WEBPACK_IMPORTED_MODULE_2__["initBlockIssuepageDownloadbtn"])();
-
-/***/ }),
-
-/***/ "@wordpress/blocks":
-/*!*****************************************!*\
-  !*** external {"this":["wp","blocks"]} ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/element":
-/*!******************************************!*\
-  !*** external {"this":["wp","element"]} ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["element"]; }());
 
 /***/ })
 

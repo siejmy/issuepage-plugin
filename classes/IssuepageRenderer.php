@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__) . '/DownloadButtonRenderer.php');
+
 class IssuepageRenderer {
   function __construct() {
     require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRenderer.php');
@@ -22,8 +24,10 @@ class IssuepageRenderer {
   }
 
   function renderContent($post) {
+    $btnRenderer = new DownloadButtonRenderer();
     return '<div class="issuepage-content">'
               . '<h1>' . $post->post_title . '</h1>'
+              . $btnRenderer->renderForPost($post)
               . $post->post_content
          . '</div>';
   }

@@ -11,17 +11,8 @@
  * @package         siejmy
  */
 
-require_once dirname(__FILE__) . '/render_callbacks/issuepage_downloadbtn.php';
 require_once dirname(__FILE__) . '/metaboxes/issuepage_metabox_html.php';
 
-function register_block_type_issuepage() {
-	register_block_type( 'siejmy/issuepage-downloadbtn', array(
-		'render_callback' => 'siejmy_issuepage_downloadbtn_render_callback',
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
 
 function issuepage_register_post_fields() {
 	register_post_meta( 'post', 'issuepage_issue_no', array(
@@ -66,7 +57,7 @@ function issuepage_add_metaboxes() {
 	);
 }
 
-function create_block_issuepage_block_init() {
+function issuepage_plugin_init() {
 	$dir = dirname( __FILE__ );
 
 	$script_asset_path = "$dir/build/index.asset.php";
@@ -100,10 +91,11 @@ function create_block_issuepage_block_init() {
 		filemtime( "$dir/$style_css" )
 	);
 
-	register_block_type_issuepage();
+	wp_enqueue_style('siejmy-issuepage-block');
+
 	issuepage_register_post_fields();
 }
 
-add_action( 'init', 'create_block_issuepage_block_init' );
+add_action( 'init', 'issuepage_plugin_init' );
 add_action( 'add_meta_boxes', 'issuepage_add_metaboxes' );
 add_action( 'save_post', 'issuepage_save_post' );
