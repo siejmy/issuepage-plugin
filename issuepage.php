@@ -11,59 +11,11 @@
  * @package         siejmy
  */
 
-require_once dirname(__FILE__) . '/render_callbacks/client_post.php';
+require_once dirname(__FILE__) . '/render_callbacks/issuepage.php';
 
-function register_block_type_row_ltb() {
-	register_block_type( 'siejmy/issuepage-row-ltb', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_row_tbr() {
-	register_block_type( 'siejmy/issuepage-row-tbr', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_row_uno() {
-	register_block_type( 'siejmy/issuepage-row-uno', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_row_duo() {
-	register_block_type( 'siejmy/issuepage-row-duo', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_row_midline() {
-	register_block_type( 'siejmy/issuepage-row-midline', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_column() {
-	register_block_type( 'siejmy/issuepage-column', array(
-		'editor_script' => 'siejmy-issuepage-block-editor',
-		'editor_style'  => 'siejmy-issuepage-block-editor',
-		'style'         => 'siejmy-issuepage-block',
-	) );
-}
-
-function register_block_type_client_post() {
-	register_block_type( 'siejmy/issuepage-client-post', array(
-		'render_callback' => 'siejmy_issuepage_client_post_render_callback',
+function register_block_type_issuepage() {
+	register_block_type( 'siejmy/issuepage', array(
+		'render_callback' => 'siejmy_issuepage_downloadbtn_render_callback',
 		'editor_script' => 'siejmy-issuepage-block-editor',
 		'editor_style'  => 'siejmy-issuepage-block-editor',
 		'style'         => 'siejmy-issuepage-block',
@@ -104,14 +56,7 @@ function create_block_issuepage_block_init() {
 		filemtime( "$dir/$style_css" )
 	);
 
-	register_block_type_row_ltb();
-	register_block_type_row_tbr();
-	register_block_type_row_uno();
-	register_block_type_row_duo();
-	register_block_type_row_midline();
-	register_block_type_column();
-	register_block_type_client_post();
-
-	register_thumb_sizes();
+	register_block_type_issuepage();
 }
+
 add_action( 'init', 'create_block_issuepage_block_init' );
