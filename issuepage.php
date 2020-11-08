@@ -12,14 +12,58 @@
  */
 
 require_once dirname(__FILE__) . '/render_callbacks/issuepage_downloadbtn.php';
+require_once dirname(__FILE__) . '/metaboxes/issuepage_metabox_html.php';
 
 function register_block_type_issuepage() {
-	register_block_type( 'siejmy/issuepage', array(
+	register_block_type( 'siejmy/issuepage-downloadbtn', array(
 		'render_callback' => 'siejmy_issuepage_downloadbtn_render_callback',
 		'editor_script' => 'siejmy-issuepage-block-editor',
 		'editor_style'  => 'siejmy-issuepage-block-editor',
 		'style'         => 'siejmy-issuepage-block',
 	) );
+}
+
+function issuepage_register_post_fields() {
+	register_post_meta( 'post', 'issuepage_issue_no', array(
+			'description' => 'Numer i miesiąc wydania (tekst wyświetlany nad tytułem)',
+			'show_in_rest' => true,
+			'single' => true,
+			'type' => 'string',
+	) );
+
+	register_post_meta( 'post', 'issuepage_download_url', array(
+		'description' => 'Url pobierania numeru',
+		'show_in_rest' => true,
+		'single' => true,
+		'type' => 'string',
+	) );
+}
+
+function issuepage_save_post($post_id) {
+	if ( array_key_exists( 'issuepage_issue_no', $_POST ) ) {
+		update_post_meta(
+				$post_id,
+				'issuepage_issue_no',
+				$_POST['issuepage_issue_no']
+		);
+	}
+
+	if ( array_key_exists( 'issuepage_download_url', $_POST ) ) {
+		update_post_meta(
+				$post_id,
+				'issuepage_download_url',
+				$_POST['issuepage_download_url']
+		);
+	}
+}
+
+function issuepage_add_metaboxes() {
+	add_meta_box(
+			'issuepage_metabox',                 // Unique ID
+			'Strona pobierania wydania',      // Box title
+			'issuepage_metabox_html',  // Content callback, must be of type callable
+			'post'                           // Post type
+	);
 }
 
 function create_block_issuepage_block_init() {
@@ -57,6 +101,9 @@ function create_block_issuepage_block_init() {
 	);
 
 	register_block_type_issuepage();
+	issuepage_register_post_fields();
 }
 
 add_action( 'init', 'create_block_issuepage_block_init' );
+add_action( 'add_meta_boxes', 'issuepage_add_metaboxes' );
+add_action( 'save_post', 'issuepage_save_post' );
