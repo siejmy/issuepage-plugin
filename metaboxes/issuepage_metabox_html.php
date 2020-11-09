@@ -31,22 +31,4 @@ function render_stats_box() {
     ' <p><i>Pamiętaj, aby poprzedzić url pliku za pomocą \'/get\' aby były liczone pobrania. Dodatkowo usuń \'https://siejmy.pl\' z początku pliku. Url powinien zaczynać się od \'/\'. Prawidłowy format URLa: \'/get/wp-content/uploads/2020/10/SIEJMY-6.2020.pdf\'</i></p>'
     . '<strong>Siejmy licznik pobrań (aktualizowane co 5 minut): </strong>'
     . ' <iframe src="' . IssuepagePluginConfig::$statsUrl . '" title="Siejmy download stats" width="450" height="150" style="border: 1px solid blue;"></iframe>';
-    /*
-  <div id="statsbox">
-			<pre id="statsoutput"></pre>
-			<script>
-				window.onload = () => {
-					fetch("https://siejmy.pl/cfw/counter_stats.4wFw4W0TZ5tq9Fg5.json")
-						.then((text) => resp.text())
-						.then(
-							(text) =>
-								(document.getElementById("statsoutput").innerText = text),
-						)
-						.catch(
-							(err) =>
-								(document.getElementById("statsoutput").innerText = err.stack),
-						)
-				}
-			</script>
-    </div>';*/
 }
