@@ -75,5 +75,23 @@
 				Możesz wspierać naszą działalność tutaj: https://zrzutka.pl/2p8za3
 			</p>
 		</article>
+
+		<div id="statsbox">
+			<pre id="statsoutput"></pre>
+			<script>
+				window.onload = () => {
+					fetch("https://siejmy.pl/cfw/counter_stats.4wFw4W0TZ5tq9Fg5.json")
+						.then((text) => resp.text())
+						.then(
+							(text) =>
+								(document.getElementById("statsoutput").innerText = text),
+						)
+						.catch(
+							(err) =>
+								(document.getElementById("statsoutput").innerText = err.stack),
+						)
+				}
+			</script>
+		</div>
 	</body>
 </html>
