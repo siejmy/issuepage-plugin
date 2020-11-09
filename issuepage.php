@@ -12,7 +12,16 @@
  */
 
 require_once dirname(__FILE__) . '/metaboxes/issuepage_metabox_html.php';
+require_once dirname(__FILE__) . '/render_callbacks/issuepage_scrollpicker.php';
 
+function register_block_type_scrollpicker() {
+	register_block_type( 'siejmy/issuepage-scrollpicker', array(
+		'render_callback' => 'siejmy_issuepage_scrollpicker_render_callback',
+		'editor_script' => 'siejmy-issuepage-block-editor',
+		'editor_style'  => 'siejmy-issuepage-block-editor',
+		'style'         => 'siejmy-issuepage-block',
+	) );
+}
 
 function issuepage_register_post_fields() {
 	register_post_meta( 'post', 'issuepage_issue_no', array(
@@ -94,6 +103,7 @@ function issuepage_plugin_init() {
 	wp_enqueue_style('siejmy-issuepage-block');
 
 	issuepage_register_post_fields();
+	register_block_type_scrollpicker();
 }
 
 add_action( 'init', 'issuepage_plugin_init' );

@@ -3,3 +3,18 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+
+.scrollpicker_preview {
+	position: relative;
+	padding-top: 66.66%;
+}
+
+.scrollpicker_preview > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #bbb;
+	padding: 3rem;
+}
