@@ -26,6 +26,7 @@ class IssuepageRenderer {
   function renderContent($post) {
     $btnRenderer = new DownloadButtonRenderer();
     return '<div class="issuepage-content">'
+              . $this->renderIssueNo($post)
               . '<h1>' . $post->post_title . '</h1>'
               . $btnRenderer->renderForPost($post)
               . $post->post_content
@@ -34,6 +35,13 @@ class IssuepageRenderer {
 
   function getHeroPreloadingBgStyles($imgRenderer, $post, $mediaId) {
     return '<style>#' . $this->getHeroId($post) . ' { background-image: url(' . $imgRenderer->getFallbackDataSrc($mediaId) . '); }</style>';
+  }
+
+  function renderIssueNo($post) {
+    $issuepage_issue_no = get_post_meta($post->ID, 'issuepage_issue_no');
+    if(empty($issuepage_issue_no) || !isset($issuepage_issue_no[0])) return '';
+    $text = $issuepage_issue_no[0];
+    return '<h2 class="supertitle h6">' . $text . '</h2>';
   }
 
   function getHeroId($post) {
