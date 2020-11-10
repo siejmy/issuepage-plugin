@@ -5,14 +5,15 @@ require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRen
 
 class ScrollpickerRenderer {
   function render() {
-    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
+    $categoryId = 2;
     return '<div class="scrollpicker_prnt"><div class="scrollpicker-block">'
          . $this->renderTitle()
          . $this->renderCarousel(
               $this->renderSlides($categoryId)
             . $this->renderSeeMoreSlide($categoryId)
          )
-         . '<div class="bottom-shadow-line"></div> </div></div>'
+         . '<div class="bottom-shadow-line"></div>'
+         . '</div></div>'
          . $this->renderStyles();
   }
 
@@ -26,12 +27,11 @@ class ScrollpickerRenderer {
       <amp-base-carousel
         id="scrollpicker"
         class="gallery"
-        layout="responsive"
-        width="3"
-        height="2"
+        layout="fixed-height"
+        height="200"
         snap-align="center"
         loop="true"
-        visible-count="1.7"
+        visible-count="(max-width: 400px) 1.7, (max-width: 520px) 1.9, 3.1"
       >'
       . $content
       .'</amp-base-carousel></amp-inline-gallery>';
@@ -48,18 +48,25 @@ class ScrollpickerRenderer {
     $imageRenderer = new ImageRenderer();
     $out = '';
     foreach($issuePosts as $post) {
-      $alt = $post->post_title;
-      $mediaId = get_post_thumbnail_id($post);
-      $link = get_post_permalink($post);
-      $out .= '<a href="' . $link . '" class="imglink">';
-      $out .= $imageRenderer->renderImgByAttachmentId($mediaId, $alt);
-      $out .= '</a>';
+      $out .= '<div class="slide">' . $imageRenderer->renderImageHero(array(
+        'elementId' => 'imghero_' . $post->ID,
+        'mediaId' => get_post_thumbnail_id($post),
+        'cssClass' => 'imglink',
+        'href' => get_post_permalink($post),
+        'alt' => $post->post_title,
+        'height' => '200',
+        'width' => '',
+        'layout' => 'fixed',
+        'srcset_min_size' => 'siejmy_230',
+        'default_size' => 'siejmy_230',
+        'layoutMode' => 'auto-width',
+      )) . '</div>';
     }
     return $out;
   }
 
   function renderSeeMoreSlide($categoryId) {
-    return '<div class="slide see-more-slide"><p><a href="' . get_category_link($categoryId) . '">Zobacz<br /> poprzednie<br /> wydania &raquo;</a></p></div>';
+    return '<div class="slide see-more-slide" style="height: 200px"><p><a href="' . get_category_link($categoryId) . '">Zobacz<br /> poprzednie<br /> wydania &raquo;</a></p></div>';
   }
 
   function renderStyles() {
@@ -96,24 +103,34 @@ class ScrollpickerRenderer {
       height: 3rem;
     }
 
-    .scrollpicker-block .imglink {
-      display: grid;
-      position: relative;
+    .scrollpicker-block .slide {
     }
 
-    .scrollpicker-block .imglink amp-img img {
-      object-fit: contain;
+    .scrollpicker-block .slide .imglink {
+      display: block;
+      width: min-content;
+      height: 200px;
+      margin: 0 auto;
     }
+
+    .scrollpicker-block .slide .imglink amp-img {
+      display: block;
+    }
+
+    /*.scrollpicker-block  .slide .imglink amp-img img {
+      object-fit: contain;
+    }*/
 
     .scrollpicker-block .see-more-slide {
       width: 100%;
+      padding-top: 10px;
     }
 
     .scrollpicker-block .see-more-slide p {
       width: 77%;
       margin: 0 auto;
       display: block;
-      height: inherit;
+      height: 200px;
       background: #ccc;
       color: #555;
       padding: 2rem;
@@ -131,6 +148,7 @@ class ScrollpickerRenderer {
       line-height: 12px;
       padding: 3px;
     }
+
     @media (min-width: 768px) {
       .scrollpicker_prnt {
         max-width: 1300px;
