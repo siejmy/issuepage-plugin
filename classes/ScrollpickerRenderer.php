@@ -4,6 +4,7 @@ require_once(dirname(__FILE__) . '/IssuepagePluginConfig.php');
 require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRenderer.php');
 
 class ScrollpickerRenderer {
+  static $coverAspectRation = '1.3';
   function render() {
     $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
     return '<div class="scrollpicker_prnt"><div class="scrollpicker-block">'
@@ -25,7 +26,6 @@ class ScrollpickerRenderer {
   function renderCarousel($content) {
     return '<amp-inline-gallery layout="container">
       <amp-base-carousel
-        id="scrollpicker"
         class="gallery"
         layout="responsive"
         height="2"
@@ -39,7 +39,6 @@ class ScrollpickerRenderer {
   }
 
   function renderSlides($categoryId) {
-    $aspectRatio = '1.3';
     $opts = array(
       'cat' => $categoryId,
       'orderby'          => 'date',
@@ -59,17 +58,16 @@ class ScrollpickerRenderer {
         'layout' => 'responsive',
         'srcset_min_size' => 'siejmy_230',
         'default_size' => 'siejmy_230',
-        'caption' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . $aspectRatio . '"></svg>'
+        'caption' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . self::$coverAspectRation . '"></svg>'
       )) . '</div>';
     }
     return $out;
   }
 
   function renderSeeMoreSlide($categoryId) {
-    $aspectRatio = '1.3';
     return '<div class="slide see-more-slide"><a href="' . get_category_link($categoryId) . '" class="imglink">'
       . '<p>Zobacz<br /> poprzednie<br /> wydania &raquo;</p>'
-      . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . $aspectRatio . '"></svg>'
+      . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . self::$coverAspectRation . '"></svg>'
       . '</a></div>';
   }
 
