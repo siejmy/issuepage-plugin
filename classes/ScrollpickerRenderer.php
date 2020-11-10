@@ -5,7 +5,7 @@ require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRen
 
 class ScrollpickerRenderer {
   function render() {
-    $categoryId = 2;
+    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
     return '<div class="scrollpicker_prnt"><div class="scrollpicker-block">'
          . $this->renderTitle()
          . $this->renderCarousel(
@@ -27,17 +27,19 @@ class ScrollpickerRenderer {
       <amp-base-carousel
         id="scrollpicker"
         class="gallery"
-        layout="fixed-height"
-        height="200"
+        layout="responsive"
+        height="2"
+        width="3"
         snap-align="center"
         loop="true"
-        visible-count="(max-width: 400px) 1.7, (max-width: 520px) 1.9, 3.1"
+        visible-count="1.7"
       >'
       . $content
       .'</amp-base-carousel></amp-inline-gallery>';
   }
 
   function renderSlides($categoryId) {
+    $aspectRatio = '1.3';
     $opts = array(
       'cat' => $categoryId,
       'orderby'          => 'date',
@@ -54,19 +56,21 @@ class ScrollpickerRenderer {
         'cssClass' => 'imglink',
         'href' => get_post_permalink($post),
         'alt' => $post->post_title,
-        'height' => '200',
-        'width' => '',
-        'layout' => 'fixed',
+        'layout' => 'responsive',
         'srcset_min_size' => 'siejmy_230',
         'default_size' => 'siejmy_230',
-        'layoutMode' => 'auto-width',
+        'caption' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . $aspectRatio . '"></svg>'
       )) . '</div>';
     }
     return $out;
   }
 
   function renderSeeMoreSlide($categoryId) {
-    return '<div class="slide see-more-slide" style="height: 200px"><p><a href="' . get_category_link($categoryId) . '">Zobacz<br /> poprzednie<br /> wydania &raquo;</a></p></div>';
+    $aspectRatio = '1.3';
+    return '<div class="slide see-more-slide"><a href="' . get_category_link($categoryId) . '" class="imglink">'
+      . '<p>Zobacz<br /> poprzednie<br /> wydania &raquo;</p>'
+      . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . $aspectRatio . '"></svg>'
+      . '</a></div>';
   }
 
   function renderStyles() {
@@ -104,37 +108,48 @@ class ScrollpickerRenderer {
     }
 
     .scrollpicker-block .slide {
+      display: block;
+      position: relative;
     }
 
     .scrollpicker-block .slide .imglink {
       display: block;
+      position: relative;
+      height: inherit;
       width: min-content;
-      height: 200px;
       margin: 0 auto;
     }
 
-    .scrollpicker-block .slide .imglink amp-img {
-      display: block;
+    .scrollpicker-block .slide .imglink > svg {
+      height: 100%;
+      width: auto;
     }
 
-    /*.scrollpicker-block  .slide .imglink amp-img img {
-      object-fit: contain;
-    }*/
+    .scrollpicker-block .slide .imglink amp-img, .scrollpicker-block .slide .imglink > p {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
 
-    .scrollpicker-block .see-more-slide {
-      width: 100%;
-      padding-top: 10px;
+    .scrollpicker-block  .slide .imglink amp-img img {
+      object-fit: cover;
     }
 
     .scrollpicker-block .see-more-slide p {
-      width: 77%;
-      margin: 0 auto;
+      margin: 0;
       display: block;
-      height: 200px;
       background: #ccc;
       color: #555;
       padding: 2rem;
     }
+
+    .scrollpicker-block .see-more-slide a:hover p {
+      text-decoration: underline;
+    }
+
 
     .scrollpicker-block .imglink::after {
       content: "Zobacz ☞";
@@ -149,6 +164,10 @@ class ScrollpickerRenderer {
       padding: 3px;
     }
 
+    .scrollpicker-block .see-more-slide .imglink::after {
+      display: none;
+    }
+
     @media (min-width: 768px) {
       .scrollpicker_prnt {
         max-width: 1300px;
@@ -159,6 +178,27 @@ class ScrollpickerRenderer {
       }
     }
 
+    /* They block accidentally clicking cover while wanting to click prev/next buttons */
+    .scrollpicker-block::after, .scrollpicker-block::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      width: 25%;
+      top: 37.5%;
+      bottom: 27.5%;
+    }
+
+    @media (min-width: 768px) {
+      .scrollpicker-block::after, .scrollpicker-block::before {
+        width: 15%;
+      }
+    }
+
+    .scrollpicker-block::before {
+      left: 0;
+      right: auto;
+      z-index: 1;
+    }
     </style>';
   }
 }
