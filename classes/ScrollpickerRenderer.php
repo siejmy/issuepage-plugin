@@ -5,7 +5,7 @@ require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRen
 
 class ScrollpickerRenderer {
   function render() {
-    $categoryId = 2;
+    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
     return '<div class="scrollpicker_prnt"><div class="scrollpicker-block">'
          . $this->renderTitle()
          . $this->renderCarousel(
@@ -26,8 +26,9 @@ class ScrollpickerRenderer {
       <amp-base-carousel
         id="scrollpicker"
         class="gallery"
-        layout="fixed-height"
-        height="200"
+        layout="responsive"
+        width="3"
+        height="2"
         snap-align="center"
         loop="true"
         visible-count="1.7"
@@ -47,24 +48,18 @@ class ScrollpickerRenderer {
     $imageRenderer = new ImageRenderer();
     $out = '';
     foreach($issuePosts as $post) {
-      $out .= '<div class="slide">' . $imageRenderer->renderImageHero(array(
-        'elementId' => 'imghero_' . $post->ID,
-        'mediaId' => get_post_thumbnail_id($post),
-        'cssClass' => 'imglink',
-        'href' => get_post_permalink($post),
-        'alt' => $post->post_title,
-        'height' => '200',
-        'width' => '',
-        'layout' => 'fixed-height',
-        'srcset_min_size' => 'siejmy_230',
-        'default_size' => 'siejmy_230',
-      )) . '</div>';
+      $alt = $post->post_title;
+      $mediaId = get_post_thumbnail_id($post);
+      $link = get_post_permalink($post);
+      $out .= '<a href="' . $link . '" class="imglink">';
+      $out .= $imageRenderer->renderImgByAttachmentId($mediaId, $alt);
+      $out .= '</a>';
     }
     return $out;
   }
 
   function renderSeeMoreSlide($categoryId) {
-    return '<div class="slide see-more-slide" style="height: 200px"><p><a href="' . get_category_link($categoryId) . '">Zobacz<br /> poprzednie<br /> wydania &raquo;</a></p></div>';
+    return '<div class="slide see-more-slide"><p><a href="' . get_category_link($categoryId) . '">Zobacz<br /> poprzednie<br /> wydania &raquo;</a></p></div>';
   }
 
   function renderStyles() {
@@ -102,6 +97,8 @@ class ScrollpickerRenderer {
     }
 
     .scrollpicker-block .imglink {
+      display: grid;
+      position: relative;
     }
 
     .scrollpicker-block .imglink amp-img img {
