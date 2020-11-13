@@ -69,14 +69,31 @@ class ScrollpickerRenderer {
 
   function renderSeeMoreSlide($categoryId) {
     $link = get_category_link($categoryId);
+    $content = '<text x="16" y="24">Zobacz</text>'
+    .     '<text x="16" y="40">poprzednie</text>'
+    .     '<text x="16" y="56">wydania &raquo;</text>';
+    return $this->getFallbackSvg('on="tap:AMP.navigateTo(url=\'' . $link . '\')"', $content);
+  }
+
+  function getFallbackSvg($attrs = '', $content = '') {
     return '<svg xmlns="http://www.w3.org/2000/svg" '
-         . ' viewBox="0 0 100 ' . (self::$coverAspectRation*100) . '"'
-         . ' on="tap:AMP.navigateTo(url=\'' . $link . '\')"'
-         . '><rect width="100" height="' . (self::$coverAspectRation*100) . '" fill="#ccc" />'
-         .     '<text x="16" y="24">Zobacz</text>'
-         .     '<text x="16" y="40">poprzednie</text>'
-         .     '<text x="16" y="56">wydania &raquo;</text>'
-         . '</svg>';
+    . ' viewBox="0 0 100 ' . (self::$coverAspectRation*100) . '"'
+    . ' ' . $attrs
+    . '><rect width="100" height="' . (self::$coverAspectRation*100) . '" fill="#ccc" />'
+    .     $content
+    . '</svg>';
+  }
+
+  function getSlideFallback() {
+    return '<amp-img
+    alt="Okładka"
+    fallback
+    layout="responsive"
+    width="100"
+    height="' . (self::$coverAspectRation*100) . '"
+    src="data:image/svg+xml;base64,'. base64_encode($this->getFallbackSvg()) .'"
+  >
+  </amp-img>';
   }
 
   function renderStyles() {
