@@ -7,20 +7,25 @@ class ScrollpickerRenderer {
   static $coverAspectRation = '1.3';
   function render() {
     $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
-    return '<div class="scrollpicker_prnt"><div class="scrollpicker-block">'
+    return '<aside class="scrollpicker_prnt"><div class="scrollpicker-block">'
          . $this->renderTitle()
          . $this->renderCarousel(
               $this->renderSlides($categoryId)
             . $this->renderSeeMoreSlide($categoryId)
          )
-         . '<div class="bottom-shadow-line"></div>'
-         . '</div></div>'
+         . $this->renderDescription($categoryId)
+         . '</div></aside>'
          . $this->renderStyles();
   }
 
 
   function renderTitle() {
     return '<h2 class="h6">E-czasopismo siejmy</h2>';
+  }
+
+  function renderDescription($categoryId) {
+    return '<p>Podoba Ci się portal Siejmy?<br /> Zobacz nasze <strong><a href="' . get_category_link($categoryId) . '">E-czasopismo</a></strong>.'
+         . ' Znajdziesz w nim poważne tematy i pogłębione analizy.</p>';
   }
 
   function renderCarousel($content) {
@@ -49,26 +54,29 @@ class ScrollpickerRenderer {
     $imageRenderer = new ImageRenderer();
     $out = '';
     foreach($issuePosts as $post) {
-      $out .= '<div class="slide">' . $imageRenderer->renderImageHero(array(
-        'elementId' => 'imghero_' . $post->ID,
-        'mediaId' => get_post_thumbnail_id($post),
-        'cssClass' => 'imglink',
-        'href' => get_post_permalink($post),
-        'alt' => $post->post_title,
+      $mediaId = get_post_thumbnail_id($post);
+      $alt = 'Okładka wydania ' . $post->post_title;
+      $link = get_post_permalink($post);
+      $out .= $imageRenderer->renderImgByAttachmentId($mediaId, $alt, array(
         'layout' => 'responsive',
         'srcset_min_size' => 'siejmy_230',
         'default_size' => 'siejmy_230',
-        'caption' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . self::$coverAspectRation . '"></svg>'
-      )) . '</div>';
+        'attrs' => ' on="tap:AMP.navigateTo(url=\'' . $link . '\')"'
+      ));
     }
     return $out;
   }
 
   function renderSeeMoreSlide($categoryId) {
-    return '<div class="slide see-more-slide"><a href="' . get_category_link($categoryId) . '" class="imglink">'
-      . '<p>Zobacz<br /> poprzednie<br /> wydania &raquo;</p>'
-      . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 ' . self::$coverAspectRation . '"></svg>'
-      . '</a></div>';
+    $link = get_category_link($categoryId);
+    return '<svg xmlns="http://www.w3.org/2000/svg" '
+         . ' viewBox="0 0 100 ' . (self::$coverAspectRation*100) . '"'
+         . ' on="tap:AMP.navigateTo(url=\'' . $link . '\')"'
+         . '><rect width="100" height="' . (self::$coverAspectRation*100) . '" fill="#ccc" />'
+         .     '<text x="16" y="24">Zobacz</text>'
+         .     '<text x="16" y="40">poprzednie</text>'
+         .     '<text x="16" y="56">wydania &raquo;</text>'
+         . '</svg>';
   }
 
   function renderStyles() {
@@ -80,6 +88,8 @@ class ScrollpickerRenderer {
 
     .scrollpicker_prnt {
       width: 100%;
+      max-width: calc(1300px - 8%);
+      margin: 0 auto;
     }
 
     .scrollpicker-block {
@@ -100,80 +110,18 @@ class ScrollpickerRenderer {
       letter-spacing: 0.75px;
     }
 
-    .scrollpicker-block .bottom-shadow-line {
+    .scrollpicker-block > p {
+      display: block;
+      text-align: center;
       box-shadow: inset 0 -7px 9px -7px rgba(0, 0, 0, 0.4);
-      height: 3rem;
+      min-height: 3rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0;
+      color: #777;
     }
 
-    .scrollpicker-block .slide {
-      display: block;
-      position: relative;
-    }
-
-    .scrollpicker-block .slide .imglink {
-      display: block;
-      position: relative;
-      height: inherit;
-      width: min-content;
-      margin: 0 auto;
-    }
-
-    .scrollpicker-block .slide .imglink > svg {
-      height: 100%;
-      width: auto;
-    }
-
-    .scrollpicker-block .slide .imglink amp-img, .scrollpicker-block .slide .imglink > p {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    .scrollpicker-block  .slide .imglink amp-img img {
-      object-fit: cover;
-    }
-
-    .scrollpicker-block .see-more-slide p {
-      margin: 0;
-      display: block;
-      background: #ccc;
-      color: #555;
-      padding: 2rem;
-    }
-
-    .scrollpicker-block .see-more-slide a:hover p {
-      text-decoration: underline;
-    }
-
-
-    .scrollpicker-block .imglink::after {
-      content: "Zobacz ☞";
-      display: block;
-      position: absolute;
-      bottom: -5px;
-      right: 7%;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      font-size: 12px;
-      line-height: 12px;
-      padding: 3px;
-    }
-
-    .scrollpicker-block .see-more-slide .imglink::after {
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .scrollpicker_prnt {
-        max-width: 1300px;
-        margin: 0 auto;
-        margin-bottom: 4%;
-        padding-left: 4%;
-        padding-right: 4%;
-      }
+    .scrollpicker-block amp-img, .scrollpicker-block svg {
+      cursor: pointer;
     }
 
     /* They block accidentally clicking cover while wanting to click prev/next buttons */
