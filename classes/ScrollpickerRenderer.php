@@ -5,16 +5,28 @@ require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRen
 
 class ScrollpickerRenderer {
   static $coverAspectRation = '1.3';
-  function render() {
+  function render($config) {
     $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
-    return '<aside class="scrollpicker_prnt"><div class="scrollpicker-block">'
+    return '<div class="scrollpicker-block">'
          . $this->renderTitle()
          . $this->renderCarousel(
               $this->renderSlides($categoryId)
-            . $this->renderSeeMoreSlide($categoryId)
+            . $this->renderSeeMoreSlide($categoryId),
+            $config
          )
          . $this->renderDescription($categoryId)
-         . '</div></aside>'
+         . '</div>'
+         . $this->renderStyles();
+  }
+
+  function renderOnlyCarousel() {
+    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
+    return '<div class="scrollpicker-block">'
+        . $this->renderCarousel(
+              $this->renderSlides($categoryId)
+            . $this->renderSeeMoreSlide($categoryId)
+         )
+         . '</div>'
          . $this->renderStyles();
   }
 
@@ -28,8 +40,11 @@ class ScrollpickerRenderer {
          . ' Znajdziesz w nim poważne tematy i pogłębione analizy.</p>';
   }
 
-  function renderCarousel($content) {
-    return '<amp-inline-gallery layout="container">
+  function renderCarousel($content, $config) {
+    return '<amp-inline-gallery
+      layout="container"
+      ' . (isset($config['media']) ? 'media="' . $config['media'] . '"' : '') . '
+      >
       <amp-base-carousel
         class="gallery"
         layout="responsive"
@@ -37,6 +52,7 @@ class ScrollpickerRenderer {
         width="3"
         snap-align="center"
         loop="true"
+        ' . (isset($config['media']) ? 'media="' . $config['media'] . '"' : '') . '
         visible-count="1.7"
       >'
       . $content
@@ -103,16 +119,9 @@ class ScrollpickerRenderer {
      * Scrollpicker
      ****************************/
 
-    .scrollpicker_prnt {
-      width: 100%;
-      max-width: calc(1300px - 8%);
-      margin: 0 auto;
-    }
-
     .scrollpicker-block {
       width: 100%;
       box-sizing: border-box;
-      margin-bottom: 4%;
       box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.4);
       background: #eee;
       position: relative;
