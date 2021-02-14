@@ -16,10 +16,11 @@ class IssuepageRenderer {
     $mediaId     = get_post_thumbnail_id($post);
     $imgRenderer = new ImageRenderer();
     $alt = $post->post_title;
+    $btnRenderer = new DownloadButtonRenderer();
     return
-        '<div class="issuepage-img" id="' . $this->getHeroId($post) . '">'
+        '<a class="issuepage-img" id="' . $this->getHeroId($post) . '" href="' . $btnRenderer->getDownloadUrlForPost($post) . '">'
       .   $imgRenderer->renderImgByAttachmentId($mediaId, $alt)
-      . '</div>'
+      . '</a>'
       . $this->getHeroPreloadingBgStyles($imgRenderer, $post, $mediaId);
   }
 
