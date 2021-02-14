@@ -9,27 +9,20 @@ class ScrollpickerRenderer {
     $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
     return '<div class="scrollpicker-block">'
          . $this->renderTitle()
-         . $this->renderCarousel(
+         . $this->renderCarouselOnly($config)
+         . $this->renderDescription($categoryId)
+         . '</div>';
+  }
+
+  function renderCarouselOnly($config) {
+    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
+    return $this->renderCarousel(
               $this->renderSlides($categoryId)
             . $this->renderSeeMoreSlide($categoryId),
             $config
          )
-         . $this->renderDescription($categoryId)
-         . '</div>'
          . $this->renderStyles();
   }
-
-  function renderOnlyCarousel() {
-    $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
-    return '<div class="scrollpicker-block">'
-        . $this->renderCarousel(
-              $this->renderSlides($categoryId)
-            . $this->renderSeeMoreSlide($categoryId)
-         )
-         . '</div>'
-         . $this->renderStyles();
-  }
-
 
   function renderTitle() {
     return '<h2 class="h6">E-czasopismo siejmy</h2>';
@@ -41,19 +34,30 @@ class ScrollpickerRenderer {
   }
 
   function renderCarousel($content, $config) {
+    $loop = isset($config['loop']) ? $config['loop'] : true;
+    $visibleCount = isset($config['visibleCount']) ? $config['visibleCount'] : 1.7;
+    $layout = 'responsive';
+    $width = 3;
+    $height = 2;
+    if(isset($config['layout']) && $config['layout'] == 'fixed-height') {
+      $layout = 'fixed-height';
+      $width = '';
+      $height = $config['height'];
+    }
+
     return '<amp-inline-gallery
       layout="container"
       ' . (isset($config['media']) ? 'media="' . $config['media'] . '"' : '') . '
       >
       <amp-base-carousel
         class="gallery"
-        layout="responsive"
-        height="2"
-        width="3"
+        layout="' . $layout . '"
+        height="' . $height . '"
+        ' . (!empty($width) ? 'width="' . $width . '"' : '') . '
         snap-align="center"
-        loop="true"
+        loop="' . $loop . '"
         ' . (isset($config['media']) ? 'media="' . $config['media'] . '"' : '') . '
-        visible-count="1.7"
+        visible-count="' . $visibleCount . '"
       >'
       . $content
       .'</amp-base-carousel></amp-inline-gallery>';
