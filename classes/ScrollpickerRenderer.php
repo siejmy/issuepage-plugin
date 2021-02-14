@@ -34,7 +34,7 @@ class ScrollpickerRenderer {
   }
 
   function renderCarousel($content, $config) {
-    $loop = isset($config['loop']) ? $config['loop'] : true;
+    $loop = isset($config['loop']) ? $config['loop'] : 'true';
     $visibleCount = isset($config['visibleCount']) ? $config['visibleCount'] : 1.7;
     $layout = 'responsive';
     $width = 3;
