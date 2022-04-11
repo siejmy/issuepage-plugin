@@ -6,6 +6,9 @@ require_once( ABSPATH . 'wp-content/plugins/siejmycommon-plugin/classes/ImageRen
 class ScrollpickerRenderer {
   static $coverAspectRation = '1.3';
   function render($config) {
+    if(empty($config)) {
+      $config = array();
+    }
     $categoryId = IssuepagePluginConfig::$emagazineCategoryId;
     return '<div class="scrollpicker-block">'
          . $this->renderTitle()
