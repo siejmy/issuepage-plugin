@@ -33,7 +33,6 @@ class IssueHeroRenderer {
     $mediaId     = get_post_thumbnail_id($post);
     $imgRenderer = new ImageRenderer();
     $alt = $post->post_title;
-    $btnRenderer = new DownloadButtonRenderer();
     return
         '<a class="imglink" id="' . $this->getHeroId($post) . '" href="' . get_permalink($post) . '">'
       .   $imgRenderer->renderImgByAttachmentId($mediaId, $alt)
