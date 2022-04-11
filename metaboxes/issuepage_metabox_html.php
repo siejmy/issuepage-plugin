@@ -23,12 +23,4 @@ function issuepage_metabox_html( $post ) {
     />
 </p>
     <?php
-    echo render_stats_box();
-}
-
-function render_stats_box() {
-  return
-    ' <p><i>Pamiętaj, aby poprzedzić url pliku za pomocą \'/get\' aby były liczone pobrania. Dodatkowo usuń \'https://siejmy.pl\' z początku pliku. Url powinien zaczynać się od \'/\'. Prawidłowy format URLa: \'/get/wp-content/uploads/2020/10/SIEJMY-6.2020.pdf\'</i></p>'
-    . '<strong>Siejmy licznik pobrań (aktualizowane co 5 minut): </strong>'
-    . ' <iframe src="' . IssuepagePluginConfig::$statsUrl . '" title="Siejmy download stats" width="450" height="150" style="border: 1px solid blue;"></iframe>';
 }
