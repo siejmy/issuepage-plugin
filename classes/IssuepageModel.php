@@ -6,7 +6,6 @@ class IssuepageModel {
   }
 
   function getNewestIssues($count) {
-    $categoryId = $this->getEMagazineCategoryID();
     $opts = array(
       'cat' => $config['emagazineCategoryID'],
       'orderby'          => 'date',
