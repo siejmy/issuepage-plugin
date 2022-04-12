@@ -7,13 +7,13 @@ class IssuepageModel {
 
   function getNewestIssues($count) {
     $opts = array(
-      'cat' => $config['emagazineCategoryID'],
+      'cat' => $this->config['emagazineCategoryID'],
       'orderby'          => 'date',
       'order'            => 'DESC',
       'numberposts' => $count,
     );
     $posts = get_posts($opts);
-    return array_map($this->getPostModel, $posts);
+    return array_map(function ($post) { return $this->getPostModel($post); }, $posts);
   }
 
   function getPostModel($post) {
