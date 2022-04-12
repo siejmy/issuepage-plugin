@@ -20,6 +20,7 @@ class IssuepageModel {
   function getPostModel($post) {
     return array(
       'post' => $post,
+      'readmoreURL' => get_permalink($post),
       'downloadURL' => $this->getDownloadURLForPost($post),
       'coverImageMediaID' => get_post_thumbnail_id($post),
     );
