@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../classes/IssuepagePluginConfig.php');
-
 function issuepage_metabox_html( $post ) {
   $issuepage_download_url = get_post_meta( $post->ID, 'issuepage_download_url', true );
   $issuepage_issue_no = get_post_meta( $post->ID, 'issuepage_issue_no', true );
